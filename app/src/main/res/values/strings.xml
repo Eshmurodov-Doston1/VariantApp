@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">VariantApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="phoneNumber">Номер телефона</string>
+    <string name="password">Пароль</string>
+    <string name="no_phone">Номер телефона недоступен</string>
+    <string name="error_phone">Неверно введен номер телефона</string>
+    <string name="no_password">Нет пароля</string>
+    <string name="no_req">У вас нету завершенных заявок</string>
+    <string name="no_internet">Нет подключения к интернету!</string>
+    <string name="password_length">Пароль должен содержать не менее 8 символов</string>
+    <string name="plane">Вы включили режим полета!</string>
+    <string name="settings">Настройки</string>
+    <string name="error">Ошибка</string>
+    <string name="server_error">Сервер не работает</string>
+    <string name="gallery">Галерея</string>
+    <string name="camera">Камера</string>
+    <string name="cancel">Отменить</string>
+    <string name="light_mode">Световой режим</string>
+    <string name="dark_mode">Темный режим</string>
+    <string name="light">День</string>
+    <string name="dark">Ночь</string>
+    <string name="log_out">Выход из аккаунта</string>
+    <string name="log_out_app">Вы действительно хотите выйти из аккаунта</string>
+    <string name="approval">Утверждение</string>
+    <string name="cancelling">Отмена</string>
+    <string name="no_client_name">Имя клиента недоступно</string>
+
+
+    <string name="websocket_closed">WebSocket closed: %1$s</string>
+    <string name="websocket_connected">WebSocket opened on %1$s</string>
+    <string name="websocket_received_message">WebSocket got message: %1$s</string>
+    <string name="websocket_sent_command">WebSocket sent command: %1$s</string>
+
+    <string name="status_line">%1$d: %2$s\n</string>
+    <string name="send_command_button_label">Send Command</string>
+    <string name="command_input_hint">Enter a command...</string>
+    <string name="websocket_failure">WebSocket failure: %s$1</string>
+    <string name="base_url">https://dev.variantgroup.uz</string>
+</resources>

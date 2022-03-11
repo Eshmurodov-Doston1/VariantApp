@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.29444444444444445" />
+        <entry key="app/src/main/res/drawable-v24/tab_layout_no_select.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable-v24/tab_layout_set.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/back_settings.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/button_back.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/chat_back.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/chat_back_from.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/chat_back_from_image.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/dialog_back.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/ic_add_ring.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/ic_art.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/ic_attach.xml" value="0.1825" />
+        <entry key="app/src/main/res/drawable/ic_error.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/ic_go_left.xml" value="0.1825" />
+        <entry key="app/src/main/res/drawable/ic_internet.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/ic_logout.xml" value="0.1825" />
+        <entry key="app/src/main/res/drawable/ic_variant_logo.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/main_view.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/tab_layout.xml" value="0.182" />
+        <entry key="app/src/main/res/drawable/time_back.xml" value="0.182" />
+        <entry key="app/src/main/res/layout/activity_auth.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_auth2.xml" value="0.34322916666666664" />
+        <entry key="app/src/main/res/layout/activity_capture.xml" value="0.34322916666666664" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.34322916666666664" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_mrz_scan.xml" value="0.34322916666666664" />
+        <entry key="app/src/main/res/layout/dialog_log_out.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_main_view.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_bottomsheet.xml" value="0.33958333333333335" />
+        <entry key="app/src/main/res/layout/item_chat_from.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_chat_text.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_chat_to.xml" value="0.33958333333333335" />
+        <entry key="app/src/main/res/layout/item_req.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_tab.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_tab_click.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_tab_clok.xml" value="0.340625" />
+        <entry key="app/src/main/res/layout/loading_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/xml/file_path.xml" value="0.33958333333333335" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

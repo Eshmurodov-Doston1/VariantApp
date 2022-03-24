@@ -13,23 +13,35 @@ import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainer
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Response
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
+import okio.ByteString
 import uz.gxteam.variantapp.ActivityListener
 import uz.gxteam.variantapp.App
+import uz.gxteam.variantapp.MainActivity
 import uz.gxteam.variantapp.R
 import uz.gxteam.variantapp.adapters.mainViewAdapter.MainViewPagerAdapter
 import uz.gxteam.variantapp.databinding.FragmentMainBinding
 import uz.gxteam.variantapp.databinding.ItemTabBinding
 import uz.gxteam.variantapp.error.getError
 import uz.gxteam.variantapp.error.noInternet
+import uz.gxteam.variantapp.models.webSocket.sendSocket.SendSocketData
 import uz.gxteam.variantapp.utils.VariantResourse
 import uz.gxteam.variantapp.viewModels.appViewModel.AppViewModel
+import uz.gxteam.webSocet.EchoWebSocketListener
+import uz.gxteam.webSocet.SocketData
 import javax.inject.Inject
 
 
@@ -64,7 +76,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val binding:FragmentMainBinding by viewBinding()
     lateinit var listCategory:ArrayList<String>
     lateinit var mainViewPagerAdapter: MainViewPagerAdapter
-//    lateinit var firebase
+    lateinit var isRefreshingApp:MutableLiveData<Boolean>
+    var client: OkHttpClient? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
@@ -73,46 +86,36 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             activityListener.showToolbar()
             activityListener.hideBackIcon()
 
-
-            addCard.setOnClickListener {
-                var bundle = Bundle()
-                val anim = NavOptions.Builder()
-                    .setEnterAnim(R.anim.enter)
-                    .setExitAnim(R.anim.exit)
-                    .setPopEnterAnim(R.anim.pop_enter)
-                    .setPopExitAnim(R.anim.pop_exit)
-               findNavController().navigate(R.id.action_mainFragment_to_chatFragment,bundle,anim.build())
-            }
-
-
-
-
-            binding.addCard.setOnClickListener {
-                lifecycleScope.launch {
-                    appViewModel.createApplication().collect {
-                        when(it){
-                            is VariantResourse.Loading->{
-                                activityListener.showLoading()
-                            }
-                            is VariantResourse.SuccessCreateApplication->{
-                                activityListener.hideLoading()
-                                var bundle = Bundle()
-                                bundle.putString("token",it.application?.token)
-                                bundle.putSerializable("data",null)
-                                findNavController().navigate(R.id.action_mainFragment_to_chatFragment,bundle)
-                            }
-                            is VariantResourse.Error->{
-                                activityListener.showLoading()
-                                if(it.appError.internetConnection==true) {
-                                    getError(requireContext(), it.appError)
+            lifecycleScope.launch {
+                appViewModel.getUserData().collect {
+                    when(it){
+                        is VariantResourse.Loading->{
+                            activityListener.showLoading()
+                        }
+                        is VariantResourse.SuccessUserData->{
+                          activityListener.hideLoading()
+                            it.userData?.let { it1 -> activityListener.toolText(it1) }
+                        }
+                        is VariantResourse.Error->{
+                            activityListener.hideLoading()
+                            if (it.appError.internetConnection==true){
+                                if(it.appError.code==401) {
+                                    val navOptions = NavOptions.Builder().setPopUpTo(R.id.authFragment, true)
+                                    var bundle = Bundle()
+                                    findNavController().navigate(R.id.authFragment,bundle,navOptions.build())
                                 }else{
-                                    noInternet(requireContext(),binding.root,lifecycle)
+                                    getError(requireContext(), it.appError,findNavController())
                                 }
+                            }else{
+                                noInternet(requireActivity() as MainActivity,requireContext(),binding.root,lifecycle)
                             }
                         }
                     }
                 }
             }
+
+
+
 
 
 
@@ -129,17 +132,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }
                 tab.customView = itemTabBinding.root
             }.attach()
-
+            isRefreshingApp = MutableLiveData<Boolean>()
             viewPager2.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-
-
-                    if (position==0){
-                        addCard.visibility = View.VISIBLE
-                    }else{
-                        addCard.visibility = View.GONE
-                    }
 
                     val tabCount = tabLayout.tabCount
                     for (i in 0 until tabCount){
@@ -166,8 +162,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
                 }
             })
+
         }
     }
+
 
     private fun loadCategory() {
         listCategory = ArrayList()
@@ -195,6 +193,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }
             }
     }
+
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

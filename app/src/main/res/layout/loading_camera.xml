@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:id="@+id/cons_loading"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#A80B0A0A">
+    <com.sn.lib.NestedProgress
+        android:id="@+id/loading"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        app:innerLoaderColor="@color/white"
+        app:outerLoaderColor="@color/white"
+        app:innerLoaderStrokeWidth="@dimen/_3sdp"
+        app:outerLoaderStrokeWidth="@dimen/_5sdp"
+        app:innerAnimInterpolator="overshoot"
+        app:outerAnimInterpolator="overshoot"
+        app:outerLoaderLength="180"
+        app:outerLoaderAnimDuration="1500" />
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/loading"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.04"
+        android:textSize="@dimen/_15sdp"
+        android:gravity="center"
+        android:textStyle="normal"
+        android:textColor="@color/white"
+        android:text="Kuting..."
+        android:maxLines="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

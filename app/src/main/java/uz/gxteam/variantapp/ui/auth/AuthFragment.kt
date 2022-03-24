@@ -2,20 +2,17 @@ package uz.gxteam.variantapp.ui.auth
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import uz.gxteam.variantapp.ActivityListener
 import uz.gxteam.variantapp.App
+import uz.gxteam.variantapp.MainActivity
 import uz.gxteam.variantapp.R
 import uz.gxteam.variantapp.databinding.FragmentAuthBinding
 import uz.gxteam.variantapp.error.getError
@@ -24,7 +21,6 @@ import uz.gxteam.variantapp.models.login.ReqLogin
 import uz.gxteam.variantapp.utils.VariantResourse
 import uz.gxteam.variantapp.viewModels.loginViewModel.LoginViewModel
 import javax.inject.Inject
-import kotlin.math.log
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -103,10 +99,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                                 is VariantResourse.Error->{
                                     if (it.appError.internetConnection==true){
                                         activityListener.hideLoading()
-                                        getError(requireContext(),it.appError)
+                                        getError(requireContext(),it.appError,findNavController())
                                     }else{
                                         activityListener.hideLoading()
-                                        noInternet(requireContext(),binding.cons,requireActivity().lifecycle)
+                                        noInternet(requireActivity() as MainActivity,requireContext(),binding.cons,requireActivity().lifecycle)
                                     }
                                 }
                             }

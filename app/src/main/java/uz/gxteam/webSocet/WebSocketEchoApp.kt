@@ -31,11 +31,13 @@ class WebSocketEchoApp (): WebSocketListener() {
             .url("ws://web.variantgroup.uz:6001/app/mykey?protocol=7&client=js&version=7.0.6&flash=false")
             .build()
 
-        request.header("${mySharedPreference?.tokenType} ${mySharedPreference?.accessToken}")
+        request.header("Authorization ${mySharedPreference?.tokenType} ${mySharedPreference?.accessToken}")
+        request.header("Accept application/json")
 
         client.newWebSocket(request, this)
 
         // Trigger shutdown of the dispatcher's executor so this process can exit cleanly.
+
         client.dispatcher.executorService.shutdown()
     }
 

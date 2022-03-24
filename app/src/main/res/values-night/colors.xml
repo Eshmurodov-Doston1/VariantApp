@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#111111</color>
+    <color name="background_progress">#FFFFFFFF</color>
+    <color name="background_progress1">#AEFFFFFF</color>
     <color name="icon_logo_color">#FFFFFFFF</color>
     <color name="textColor">#FFFFFFFF</color>
     <color name="button_back">#7000FF</color>
@@ -25,4 +27,6 @@
     <color name="status0">#5ED1B6</color>
     <color name="status1">#DC94DD</color>
     <color name="status2">#FC9696</color>
+    <color name="status_success">#06D3C0</color>
+
 </resources>

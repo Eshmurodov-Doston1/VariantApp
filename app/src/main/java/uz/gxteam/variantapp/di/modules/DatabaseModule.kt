@@ -26,4 +26,12 @@ class DatabaseModule {
     @Singleton
     fun provideApplicationDao(appDatabase: AppDatabase) = appDatabase.applicationDao()
 
+    @Provides
+    @Singleton
+    fun provideUserInfoDao(appDatabase: AppDatabase) = appDatabase.userInfoDao()
+
+    @Provides
+    @Singleton
+    fun provideDataApplicationDao(appDatabase: AppDatabase) = appDatabase.dataApplicationDao()
+
 }

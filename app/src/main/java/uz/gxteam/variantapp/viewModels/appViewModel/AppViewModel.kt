@@ -8,14 +8,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.internal.notify
 import uz.gxteam.variantapp.database.DatabaseHelper
 import uz.gxteam.variantapp.database.entity.ApplicationsEntity
+import uz.gxteam.variantapp.database.entity.DataApplicationEntity
+import uz.gxteam.variantapp.database.entity.UserInfoEntity
 import uz.gxteam.variantapp.error.AppError
+import uz.gxteam.variantapp.error.ErrorJoin
 import uz.gxteam.variantapp.error.errorMain.ErrorApp
 import uz.gxteam.variantapp.iterceptor.MySharedPreference
-import uz.gxteam.variantapp.models.chat.messages.SendMessage
 import uz.gxteam.variantapp.models.chat.messages.reqMessage.ReqMessage
+import uz.gxteam.variantapp.models.oneApplication.sendToken.SendToken
 import uz.gxteam.variantapp.models.sendMessage.SendMessageUser
+import uz.gxteam.variantapp.models.webSocket.sendSocket.SendSocketData
 import uz.gxteam.variantapp.network.appNetwork.AppHelper
 import uz.gxteam.variantapp.utils.NetworkHelper
 import uz.gxteam.variantapp.utils.VariantResourse
@@ -61,6 +68,7 @@ class AppViewModel @Inject constructor(
                 appHelper.sendMessageChat(sendMessage,"${mySharedPreference.tokenType} ${mySharedPreference.accessToken}").collect {
                     if (it.isSuccessful){
                         messageRes.emit(VariantResourse.SuccessSendChat(it.body()))
+
                     }else{
                         var gson = Gson()
                         val throwable = Throwable(it.errorBody()?.string())
@@ -83,26 +91,6 @@ class AppViewModel @Inject constructor(
                 appHelper.getApplications("${mySharedPreference.tokenType} ${mySharedPreference.accessToken}").collect {
                     if (it.isSuccessful){
                         val applications = it.body()
-                        var applicationsEntity = ApplicationsEntity(
-                            current_page = applications?.current_page?:0,
-                            data = applications?.data.toString(),
-                            first_page_url = applications?.first_page_url.toString(),
-                            from = applications?.from?:0,
-                            last_page = applications?.last_page?:0,
-                            last_page_url = applications?.last_page_url.toString(),
-                            links = applications?.links.toString(),
-                            next_page_url = applications?.next_page_url.toString(),
-                            path = applications?.path.toString(),
-                            per_page = applications?.per_page?:0,
-                            prev_page_url = applications?.prev_page_url.toString(),
-                            to = applications?.to?:0,
-                            total = applications?.total?:0)
-                        if (databaseHelper.getAllApplicationsList().isEmpty()){
-                            databaseHelper.saveApplications(applicationsEntity)
-                        }else{
-                            databaseHelper.deleteApplicationsTable()
-                            databaseHelper.saveApplications(applicationsEntity)
-                        }
                         applicationsApp.emit(VariantResourse.SuccessApplications(it.body()))
 
                     }else{
@@ -142,4 +130,148 @@ class AppViewModel @Inject constructor(
 
 
 
+    fun broadCatAuth(sendSocketData: SendSocketData):StateFlow<VariantResourse>{
+        var broadCastAuthState = MutableStateFlow<VariantResourse>(VariantResourse.Loading)
+        viewModelScope.launch {
+            if (networkHelper.isNetworkConnected()){
+                appHelper.authBroadCasting(sendSocketData,"${mySharedPreference.tokenType} ${mySharedPreference.accessToken}").collect {
+                    if (it.isSuccessful){
+                        broadCastAuthState.emit(VariantResourse.SuccessBroadCastingAuth(it.body()))
+                    }else{
+                        var gson = Gson()
+                        val throwable = Throwable(it.errorBody()?.string())
+                        val error = gson.fromJson(throwable.message, ErrorApp::class.java)
+                        broadCastAuthState.emit(VariantResourse.Error(AppError(error,it.code(), it.message(),true)))
+                    }
+                }
+            }else{
+                broadCastAuthState.emit(VariantResourse.Error(AppError(internetConnection = false)))
+            }
+        }
+        return broadCastAuthState
+    }
+
+
+
+
+
+
+    fun broadCatAuthApp(sendSocketData: SendSocketData):StateFlow<VariantResourse>{
+        var broadCastAuthState = MutableStateFlow<VariantResourse>(VariantResourse.Loading)
+        viewModelScope.launch {
+            if (networkHelper.isNetworkConnected()){
+                appHelper.authBroadCastingAppStatus(sendSocketData,"${mySharedPreference.tokenType} ${mySharedPreference.accessToken}").collect {
+                    if (it.isSuccessful){
+                        broadCastAuthState.emit(VariantResourse.SuccessBroadCastingAuthApp(it.body()))
+                    }else{
+                        var gson = Gson()
+                        val throwable = Throwable(it.errorBody()?.string())
+                        val error = gson.fromJson(throwable.message, ErrorApp::class.java)
+                        broadCastAuthState.emit(VariantResourse.Error(AppError(error,it.code(), it.message(),true)))
+                    }
+                }
+            }else{
+                broadCastAuthState.emit(VariantResourse.Error(AppError(internetConnection = false)))
+            }
+        }
+        return broadCastAuthState
+    }
+
+
+
+
+
+
+    fun getUserData():StateFlow<VariantResourse>{
+        var userData = MutableStateFlow<VariantResourse>(VariantResourse.Loading)
+        viewModelScope.launch {
+            if (networkHelper.isNetworkConnected()){
+             appHelper.getUserData("${mySharedPreference.tokenType} ${mySharedPreference.accessToken}").collect {
+                 if (it.isSuccessful){
+                     userData.emit(VariantResourse.SuccessUserData(it.body()))
+                     var userInfo = UserInfoEntity(
+                         it.body()?.birth_date.toString(),
+                         it.body()?.branch_id?:0,
+                         (it.body()?.created_at?:0).toString(),
+                         it.body()?.document_id.toString(),
+                         it.body()?.email.toString(),
+                         it.body()?.id?:0,
+                         it.body()?.name.toString(),
+                         it.body()?.partner_id?:0,
+                         it.body()?.passport_serial.toString(),
+                         it.body()?.patronym.toString(),
+                         it.body()?.period.toString(),
+                         it.body()?.phone.toString(),
+                         it.body()?.photo.toString(),
+                         it.body()?.pinfl.toString(),
+                         it.body()?.remember_token.toString(),
+                         it.body()?.role_id?:0,
+                         it.body()?.status.toString(),
+                         it.body()?.surname.toString(),
+                         it.body()?.two_factor_enabled?:0,
+                         it.body()?.type.toString(),
+                         (it.body()?.updated_at?:0).toString()
+                     )
+                     databaseHelper.saveUserInfo(userInfo)
+                 }else{
+                     var gson = Gson()
+                     val throwable = Throwable(it.errorBody()?.string())
+                     val error = gson.fromJson(throwable.message, ErrorApp::class.java)
+                     userData.emit(VariantResourse.Error(AppError(error,it.code(), it.message(),true)))
+                 }
+             }
+            }else{
+                userData.emit(VariantResourse.Error(AppError(internetConnection = false)))
+            }
+        }
+        return userData
+    }
+
+    fun getDatabase():DatabaseHelper{
+        return databaseHelper
+    }
+
+
+    fun getAllApplicationsSuccess():StateFlow<VariantResourse>{
+        var successsApplications = MutableStateFlow<VariantResourse>(VariantResourse.Loading)
+        viewModelScope.launch {
+            if (networkHelper.isNetworkConnected()){
+                appHelper.getAllApplicationsSuccess("${mySharedPreference.tokenType} ${mySharedPreference.accessToken}")
+                    .collect {
+                       if (it.isSuccessful){
+                           successsApplications.emit(VariantResourse.ApplicationsSuccess(it.body()))
+                       }else{
+                           var gson = Gson()
+                           val throwable = Throwable(it.errorBody()?.string())
+                           val error = gson.fromJson(throwable.message, ErrorApp::class.java)
+                           successsApplications.emit(VariantResourse.Error(AppError(error,it.code(), it.message(),true)))
+                       }
+                    }
+            }else{
+                successsApplications.emit(VariantResourse.Error(AppError(internetConnection = false)))
+            }
+        }
+        return successsApplications
+    }
+
+    fun getOneApplication(sendToken: SendToken):StateFlow<VariantResourse>{
+        var application = MutableStateFlow<VariantResourse>(VariantResourse.Loading)
+        viewModelScope.launch {
+            if (networkHelper.isNetworkConnected()){
+                appHelper.getOneApplication(sendToken,"${mySharedPreference.tokenType} ${mySharedPreference.accessToken}").collect {
+                    if (it.isSuccessful){
+                        application.emit(VariantResourse.SuccessGetApplication(it.body()))
+                    }else{
+                        var gson = Gson()
+                        val throwable = Throwable(it.errorBody()?.string())
+                        val error = gson.fromJson(throwable.message, ErrorApp::class.java)
+                        application.emit(VariantResourse.Error(AppError(error,it.code(), it.message(),true)))
+                    }
+                }
+            }else{
+                application.emit(VariantResourse.Error(AppError(internetConnection = false)))
+            }
+        }
+        return application
+    }
 }

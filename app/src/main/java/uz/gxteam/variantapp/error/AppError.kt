@@ -7,5 +7,6 @@ data class AppError(
     var error: ErrorApp?=null,
     var code:Int?=null,
     var message:String?=null,
-    var internetConnection:Boolean?=null
+    var internetConnection:Boolean?=null,
+    var errorList:ErrorJoin?=null,
 )

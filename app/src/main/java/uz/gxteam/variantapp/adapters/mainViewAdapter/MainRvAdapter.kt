@@ -2,56 +2,61 @@ package uz.gxteam.variantapp.adapters.mainViewAdapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import uz.gxteam.variantapp.R
 import uz.gxteam.variantapp.databinding.ItemReqBinding
-import uz.gxteam.variantapp.models.getApplications.Data
-import uz.gxteam.variantapp.models.mainClass.Request
-import java.text.SimpleDateFormat
-import java.util.*
+import uz.gxteam.variantapp.models.getApplications.ClientApplication
+import uz.gxteam.variantapp.models.getApplications.DataApplication
 
-class MainRvAdapter(var context: Context,var onItemClickListener: OnItemClickListener):ListAdapter<Data,MainRvAdapter.Vh>(MyDiffUtil()) {
+class MainRvAdapter(var context: Context,var onItemClickListener: OnItemClickListener,var viewPosition:Int):ListAdapter<DataApplication,MainRvAdapter.Vh>(MyDiffUtil()) {
     inner class Vh(var itemReqBinding: ItemReqBinding):RecyclerView.ViewHolder(itemReqBinding.root){
-        @SuppressLint("SimpleDateFormat")
-        fun onBind(data: Data, position: Int){
-           when(data.status){
-               0->{
-                   itemReqBinding.cardBtn.setCardBackgroundColor(context.getColor(R.color.status0))
-               }
-               1->{
-                   itemReqBinding.cardBtn.setCardBackgroundColor(context.getColor(R.color.status1))
-               }
-               2->{
-                   itemReqBinding.cardBtn.setCardBackgroundColor(context.getColor(R.color.status2))
-               }
-           }
+        fun onBind(dataApplication: DataApplication, position: Int){
 
-            if (data.client==null){
-                itemReqBinding.name.text = context.getString(R.string.no_client_name)
+            if (viewPosition == 0){
+                when(dataApplication.status){
+                    1->{
+                        itemReqBinding.cardBtn.setCardBackgroundColor(context.getColor(R.color.status0))
+                    }
+                    2->{
+                        itemReqBinding.cardBtn.setCardBackgroundColor(context.getColor(R.color.status1))
+                    }
+                    3->{
+                        itemReqBinding.cardBtn.setCardBackgroundColor(context.getColor(R.color.status2))
+                    }
+                }
             }else{
-                itemReqBinding.name.text = data.client
+                itemReqBinding.cardBtn.setCardBackgroundColor(context.getColor(R.color.status_success))
             }
-            itemReqBinding.number.text = data.created_at.substring(0,10)
+
+            if (dataApplication.client==null){
+                itemReqBinding.name.text = "${context.getString(R.string.no_client_name)}"
+            }else{
+                val clientApplication = Gson().fromJson(dataApplication.client.toString(), ClientApplication::class.java)
+                itemReqBinding.name.text = "${clientApplication.name} ${clientApplication.surname}"
+            }
+            itemReqBinding.number.text = dataApplication.created_at?.substring(0,10)
 //            itemReqBinding.cardBtn.setCardBackgroundColor(Color.parseColor(request.colorCategory))
 //            itemReqBinding.categoryName.text = request.category
             itemReqBinding.card.setOnClickListener {
-                onItemClickListener.onItemClick(data,position)
+                onItemClickListener.onItemClick(dataApplication,position)
             }
+
+            itemReqBinding.categoryName.text = dataApplication.status_name.status
         }
     }
 
-    class MyDiffUtil:DiffUtil.ItemCallback<Data>(){
-        override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
+    class MyDiffUtil:DiffUtil.ItemCallback<DataApplication>(){
+        override fun areItemsTheSame(oldItem: DataApplication, newItem: DataApplication): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
+        override fun areContentsTheSame(oldItem: DataApplication, newItem: DataApplication): Boolean {
             return oldItem.equals(newItem)
         }
 
@@ -65,6 +70,6 @@ class MainRvAdapter(var context: Context,var onItemClickListener: OnItemClickLis
         holder.onBind(getItem(position),position)
     }
     interface OnItemClickListener{
-        fun onItemClick(request: Data,position: Int)
+        fun onItemClick(request: DataApplication, position: Int)
     }
 }

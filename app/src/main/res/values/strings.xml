@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VariantApp</string>
+    <string name="app_name">Variant</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="phoneNumber">Номер телефона</string>
@@ -9,6 +9,11 @@
     <string name="no_password">Нет пароля</string>
     <string name="no_req">У вас нету завершенных заявок</string>
     <string name="no_internet">Нет подключения к интернету!</string>
+    <string name="chek_internet">Проверьте свое подключение к Интернету и повторите попытку.</string>
+    <string name="turn_on">Пожалуйста, включи</string>
+    <string name="airplane_mode">Вы включили режим полета.</string>
+    <string name="turn_off">Пожалуйста, выключите</string>
+    <string name="airplane">Режим полета</string>
     <string name="password_length">Пароль должен содержать не менее 8 символов</string>
     <string name="plane">Вы включили режим полета!</string>
     <string name="settings">Настройки</string>
@@ -38,4 +43,10 @@
     <string name="command_input_hint">Enter a command...</string>
     <string name="websocket_failure">WebSocket failure: %s$1</string>
     <string name="base_url">https://dev.variantgroup.uz</string>
+    <string name="preview_area">Preview Area</string>
+    <string name="please_wait">Пожалуйста, подождите</string>
+    <string name="photo_send_success">Картина была успешно отправлена</string>
+    <string name="error_app">Ошибка</string>
+    <string name="no_data">Где-то ошибка ссылки была исправлена или есть такой глюк</string>
+
 </resources>

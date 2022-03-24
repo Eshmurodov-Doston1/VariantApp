@@ -23,7 +23,7 @@ class MySharedPreference @Inject constructor(private val context: Context){
         edite.remove("accessToken")
         edite.remove("refreshToken")
         edite.remove("tokenType")
-        edite.remove("token_socet")
+//        edite.remove("token_socet")
         edite.apply()
     }
 

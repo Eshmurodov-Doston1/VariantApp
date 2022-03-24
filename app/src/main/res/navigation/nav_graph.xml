@@ -18,7 +18,11 @@
         android:id="@+id/chatFragment"
         android:name="uz.gxteam.variantapp.ui.chat.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chatFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="uz.gxteam.variantapp.ui.SettingsFragment"
@@ -37,4 +41,9 @@
             android:id="@+id/action_authFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="uz.gxteam.camera.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" />
 </navigation>

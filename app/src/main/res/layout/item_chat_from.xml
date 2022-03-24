@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:padding="@dimen/_5sdp"
         android:visibility="gone"
-        android:id="@+id/cons1"
+        android:id="@+id/text_chat"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginRight="5dp"
@@ -32,7 +32,7 @@
             android:textSize="@dimen/_11sdp"
             android:textColor="@color/textColor"
             android:textStyle="normal"
-            android:text="dsacnascjnscjnsdcsncdscbdscd"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
@@ -98,7 +98,7 @@
                         android:visibility="gone"
                         android:id="@+id/image_send"
                         android:maxHeight="@dimen/_150sdp"
-                        android:src="@drawable/image"
+                        android:src="@drawable/logo"
                         android:scaleType="centerCrop"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
@@ -151,4 +151,23 @@
                 android:layout_height="wrap_content"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <com.sn.lib.NestedProgress
+        android:id="@+id/progress"
+        android:visibility="gone"
+        app:innerLoaderColor="@color/background_progress1"
+        app:outerLoaderColor="@color/background_progress"
+        app:layout_constraintTop_toTopOf="parent"
+        app:innerLoaderStrokeWidth="@dimen/_2sdp"
+        app:outerLoaderStrokeWidth="@dimen/_4sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:innerAnimInterpolator="linear"
+        app:outerAnimInterpolator="overshoot"
+        app:outerLoaderAnimDuration="1500" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package uz.gxteam.variantapp.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import uz.gxteam.camera.CameraFragment
 import uz.gxteam.variantapp.App
 import uz.gxteam.variantapp.MainActivity
 import uz.gxteam.variantapp.di.modules.DatabaseModule
@@ -26,4 +27,5 @@ interface AppComponent {
     fun inject(mainFragment: MainFragment)
     fun inject(mainViewFragment: MainViewFragment)
     fun inject(fragmentSettings:SettingsFragment)
+    fun inject(cameraFragment: CameraFragment)
 }

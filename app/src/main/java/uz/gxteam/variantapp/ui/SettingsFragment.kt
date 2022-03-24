@@ -1,7 +1,6 @@
 package uz.gxteam.variantapp.ui
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,12 +11,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.github.angads25.toggle.interfaces.OnToggledListener
 import com.github.angads25.toggle.model.ToggleableView
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import uz.gxteam.variantapp.ActivityListener
 import uz.gxteam.variantapp.App
+import uz.gxteam.variantapp.MainActivity
 import uz.gxteam.variantapp.R
 import uz.gxteam.variantapp.databinding.DialogLogOutBinding
 import uz.gxteam.variantapp.databinding.FragmentSettingsBinding
@@ -58,7 +58,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), OnToggledListener
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             listenerActivity.showBackIcon()
+
             switchTheme.isOn = loginViewModel.getShared().theme==true
+
             switchTheme.setOnToggledListener(this@SettingsFragment)
 
             logOut.setOnClickListener {
@@ -78,18 +80,18 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), OnToggledListener
                                 is VariantResourse.SuccessLogOut->{
                                     listenerActivity.hideLoading()
                                     create.dismiss()
-
-                                  NavOptions.Builder()
-                                      .setPopUpTo(R.id.authFragment,true)
+                                    val popUpTo = NavOptions.Builder().setPopUpTo(R.id.authFragment, true)
+                                    var bundle = Bundle()
+                                    findNavController().navigate(R.id.authFragment,bundle,popUpTo.build())
 
                                 }
                                 is VariantResourse.Error->{
                                     listenerActivity.hideLoading()
                                     if (it.appError.internetConnection==true){
-                                        getError(requireContext(),it.appError)
+                                        getError(requireContext(),it.appError,findNavController())
                                     }else{
                                         create.dismiss()
-                                        noInternet(binding.root.context,binding.root,lifecycle)
+                                        noInternet(requireActivity() as MainActivity,binding.root.context,binding.root,lifecycle)
                                     }
                                 }
                             }

@@ -2,8 +2,6 @@ package uz.gxteam.variantapp.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import uz.gxteam.variantapp.models.getApplications.Data
-import uz.gxteam.variantapp.models.getApplications.Link
 
 @Entity
 data class ApplicationsEntity(

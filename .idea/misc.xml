@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.29444444444444445" />
+        <entry key="../../.gradle/caches/transforms-3/4b13562a99e317cb937e5f3acc4d6401/transformed/stream-chat-android-ui-components-4.28.2/res/drawable/stream_ui_ic_delete.xml" value="0.174" />
         <entry key="app/src/main/res/drawable-v24/border_background.xml" value="0.169" />
         <entry key="app/src/main/res/drawable-v24/tab_layout_no_select.xml" value="0.182" />
         <entry key="app/src/main/res/drawable-v24/tab_layout_set.xml" value="0.182" />
@@ -16,6 +17,7 @@
         <entry key="app/src/main/res/drawable/ic_add_ring.xml" value="0.182" />
         <entry key="app/src/main/res/drawable/ic_art.xml" value="0.182" />
         <entry key="app/src/main/res/drawable/ic_attach.xml" value="0.1825" />
+        <entry key="app/src/main/res/drawable/ic_baseline_delete_sweep_24.xml" value="0.174" />
         <entry key="app/src/main/res/drawable/ic_error.xml" value="0.182" />
         <entry key="app/src/main/res/drawable/ic_file_alt.xml" value="0.173" />
         <entry key="app/src/main/res/drawable/ic_go_left.xml" value="0.1825" />

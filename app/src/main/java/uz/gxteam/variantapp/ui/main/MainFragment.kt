@@ -85,7 +85,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             activityListener.hideLoading()
             activityListener.showToolbar()
             activityListener.hideBackIcon()
-
+//            binding.viewPager2.isUserInputEnabled =false
             lifecycleScope.launch {
                 appViewModel.getUserData().collect {
                     when(it){

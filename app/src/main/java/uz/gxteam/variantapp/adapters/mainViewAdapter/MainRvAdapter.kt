@@ -1,24 +1,26 @@
 package uz.gxteam.variantapp.adapters.mainViewAdapter
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.zerobranch.layout.SwipeLayout
+import com.zerobranch.layout.SwipeLayout.SwipeActionsListener
 import uz.gxteam.variantapp.R
 import uz.gxteam.variantapp.databinding.ItemReqBinding
 import uz.gxteam.variantapp.models.getApplications.ClientApplication
 import uz.gxteam.variantapp.models.getApplications.DataApplication
 
+
 class MainRvAdapter(var context: Context,var onItemClickListener: OnItemClickListener,var viewPosition:Int):ListAdapter<DataApplication,MainRvAdapter.Vh>(MyDiffUtil()) {
     inner class Vh(var itemReqBinding: ItemReqBinding):RecyclerView.ViewHolder(itemReqBinding.root){
         fun onBind(dataApplication: DataApplication, position: Int){
-
             if (viewPosition == 0){
+                itemReqBinding.delete.visibility = View.VISIBLE
                 when(dataApplication.status){
                     1->{
                         itemReqBinding.cardBtn.setCardBackgroundColor(context.getColor(R.color.status0))
@@ -31,6 +33,7 @@ class MainRvAdapter(var context: Context,var onItemClickListener: OnItemClickLis
                     }
                 }
             }else{
+                itemReqBinding.delete.visibility = View.GONE
                 itemReqBinding.cardBtn.setCardBackgroundColor(context.getColor(R.color.status_success))
             }
 
@@ -43,7 +46,7 @@ class MainRvAdapter(var context: Context,var onItemClickListener: OnItemClickLis
             itemReqBinding.number.text = dataApplication.created_at?.substring(0,10)
 //            itemReqBinding.cardBtn.setCardBackgroundColor(Color.parseColor(request.colorCategory))
 //            itemReqBinding.categoryName.text = request.category
-            itemReqBinding.card.setOnClickListener {
+            itemReqBinding.consView.setOnClickListener {
                 onItemClickListener.onItemClick(dataApplication,position)
             }
 

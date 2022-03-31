@@ -6,3 +6,5 @@
 ![settings](https://user-images.githubusercontent.com/76496460/161055267-f1f3ebbe-60bd-4e5a-a9eb-fe2d47910e8a.jpg)
 ![chat_image](https://user-images.githubusercontent.com/76496460/161055274-ef78df87-10b5-4fdf-82f8-68e44e2a719c.jpg)
 ![scanner](https://user-images.githubusercontent.com/76496460/161055283-7fdcb365-6909-4529-b568-a78cd091e8fc.jpg)
+![chat](https://user-images.githubusercontent.com/76496460/161055923-a86bf4f0-978e-4000-a3df-89ae05d8c873.jpg)
+

@@ -151,11 +151,6 @@ class AppViewModel @Inject constructor(
         return broadCastAuthState
     }
 
-
-
-
-
-
     fun broadCatAuthApp(sendSocketData: SendSocketData):StateFlow<VariantResourse>{
         var broadCastAuthState = MutableStateFlow<VariantResourse>(VariantResourse.Loading)
         viewModelScope.launch {
@@ -176,10 +171,6 @@ class AppViewModel @Inject constructor(
         }
         return broadCastAuthState
     }
-
-
-
-
 
 
     fun getUserData():StateFlow<VariantResourse>{
@@ -274,4 +265,27 @@ class AppViewModel @Inject constructor(
         }
         return application
     }
+
+
+    fun cancelApplicaiton(sendToken: SendToken):StateFlow<VariantResourse>{
+        var application = MutableStateFlow<VariantResourse>(VariantResourse.Loading)
+        viewModelScope.launch {
+            if (networkHelper.isNetworkConnected()){
+                appHelper.cancelApplication(sendToken,"${mySharedPreference.tokenType} ${mySharedPreference.accessToken}").collect{
+                    if (it.isSuccessful){
+                        application.emit(VariantResourse.SuccessCancelApplication(it.body()))
+                    }else{
+                        var gson = Gson()
+                        val throwable = Throwable(it.errorBody()?.string())
+                        val error = gson.fromJson(throwable.message, ErrorJoin::class.java)
+                        application.emit(VariantResourse.Error(AppError(null,it.code(), it.message(),true,error)))
+                    }
+                }
+            }else{
+                application.emit(VariantResourse.Error(AppError(internetConnection = false)))
+            }
+        }
+        return application
+    }
+
 }

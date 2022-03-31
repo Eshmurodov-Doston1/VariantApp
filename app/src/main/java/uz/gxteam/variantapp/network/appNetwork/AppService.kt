@@ -5,6 +5,7 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 import uz.gxteam.variantapp.models.application.Application
+import uz.gxteam.variantapp.models.cancelApplication.ResCancelApp
 import uz.gxteam.variantapp.models.chat.messages.reqMessage.ReqMessage
 import uz.gxteam.variantapp.models.chat.messages.resMessage.Message
 import uz.gxteam.variantapp.models.getApplications.Applications
@@ -82,6 +83,13 @@ interface AppService {
         @Header("Authorization") token: String,
         @Header("Accept") accespt: String = "application/json"
     ):Response<OneApplication>
+
+    @POST("/api/chat/cancel/application")
+    suspend fun cancelApplication(
+        @Body sendToken: SendToken,
+        @Header("Authorization") token: String,
+        @Header("Accept") accespt: String = "application/json"
+    ):Response<ResCancelApp>
 
 
 

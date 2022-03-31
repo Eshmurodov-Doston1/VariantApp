@@ -71,6 +71,7 @@ class MainViewFragment : Fragment(R.layout.fragment_main_view),CoroutineScope{
     lateinit var mainRvAdapter: MainRvAdapter
     lateinit var activityListener:ActivityListener
     var client: OkHttpClient? = null
+    lateinit var listdata:ArrayList<DataApplication>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.noData.visibility =View.GONE
@@ -106,6 +107,10 @@ class MainViewFragment : Fragment(R.layout.fragment_main_view),CoroutineScope{
             override fun onItemClick(dataApplication: DataApplication, position: Int) {
 
             }
+
+            override fun onItemClickDelete(request: DataApplication, position: Int) {
+                cancelApplication(position,request)
+            }
         },param1?:0)
 
         lifecycleScope.launch {
@@ -117,7 +122,9 @@ class MainViewFragment : Fragment(R.layout.fragment_main_view),CoroutineScope{
                             binding.noData.visibility =View.VISIBLE
                             binding.rv.visibility =View.GONE
                         }else{
-                            mainRvAdapter.submitList(it.applications?.data)
+                            listdata = ArrayList()
+                            listdata.addAll(it.applications?.data?: emptyList())
+                            mainRvAdapter.submitList(listdata)
                             binding.rv.adapter = mainRvAdapter
                             binding.rv.visibility =View.VISIBLE
                             binding.circleProgress.visibility = View.GONE
@@ -182,7 +189,9 @@ class MainViewFragment : Fragment(R.layout.fragment_main_view),CoroutineScope{
                                 progressingGone()
                                 binding.noData.visibility = View.VISIBLE
                             }
-                            mainRvAdapter.submitList(it.applications?.data)
+                            listdata = ArrayList()
+                            listdata.addAll(it.applications?.data?: emptyList())
+                            mainRvAdapter.submitList(listdata)
                             binding.rv.adapter = mainRvAdapter
                             binding.refreshLayout.isRefreshing = false
                         }
@@ -196,6 +205,31 @@ class MainViewFragment : Fragment(R.layout.fragment_main_view),CoroutineScope{
                         }
                     }
                 }
+        }
+    }
+
+
+    fun cancelApplication(position:Int,dataApplication: DataApplication){
+        launch {
+            appViewModel.cancelApplicaiton(SendToken(dataApplication.token)).collect{
+                when(it){
+                    is VariantResourse.Loading->{
+
+                    }
+                    is VariantResourse.SuccessCancelApplication->{
+                        mainRvAdapter.notifyItemRemoved(position)
+                        listdata.remove(dataApplication)
+                        mainRvAdapter.notifyItemRangeRemoved(position,listdata.size)
+                    }
+                    is VariantResourse.Error->{
+                        if (it.appError.internetConnection==true){
+                            getError(requireContext(),it.appError,findNavController())
+                        }else{
+                            noInternet(requireActivity() as MainActivity,requireContext(),binding.root,lifecycle)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -221,6 +255,10 @@ class MainViewFragment : Fragment(R.layout.fragment_main_view),CoroutineScope{
                         bundle.putString("token",dataApplication.token)
                         bundle.putSerializable("data",null)
                         findNavController().navigate(R.id.action_mainFragment_to_chatFragment,bundle)
+                    }
+
+                    override fun onItemClickDelete(request: DataApplication, position: Int) {
+                        cancelApplication(position,request)
                     }
                 },param1?:0)
 

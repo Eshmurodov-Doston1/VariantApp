@@ -28,5 +28,7 @@ class AppHelper @Inject constructor(
 
     suspend fun getOneApplication(sendToken: SendToken,token:String) = flow { emit(appService.getApplication(sendToken,token)) }
 
+    suspend fun cancelApplication(sendToken: SendToken,token:String) = flow { emit(appService.cancelApplication(sendToken,token)) }
+
     suspend fun getUserData(token:String) = flow { emit( appService.getUserData(token)) }
 }

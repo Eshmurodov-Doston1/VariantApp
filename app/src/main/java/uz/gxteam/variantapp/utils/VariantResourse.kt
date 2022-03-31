@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import uz.gxteam.variantapp.database.entity.DataApplicationEntity
 import uz.gxteam.variantapp.error.AppError
 import uz.gxteam.variantapp.models.application.Application
+import uz.gxteam.variantapp.models.cancelApplication.ResCancelApp
 import uz.gxteam.variantapp.models.chat.messages.resMessage.Message
 import uz.gxteam.variantapp.models.getApplications.Applications
 import uz.gxteam.variantapp.models.logOut.LogOut
@@ -25,6 +26,7 @@ sealed class VariantResourse {
     data class ApplicationsSuccess(var applications: Applications?):VariantResourse()
     data class SuccessGetApplication(var oneApplication: OneApplication?):VariantResourse()
     data class SuccessGetAllMessage(var message: Message?):VariantResourse()
+    data class SuccessCancelApplication(var resCancelApp: ResCancelApp?):VariantResourse()
     data class SuccessSendChat(var resMessageUser: ResMessageUser?):VariantResourse()
     data class SuccessBroadCastingAuth(var resSocket: ResSocket?):VariantResourse()
     data class SuccessBroadCastingAuthApp(var chatAppStatus: ChatAppStatus?):VariantResourse()

@@ -19,6 +19,9 @@ import uz.gxteam.variantapp.models.getApplications.DataApplication
 class MainRvAdapter(var context: Context,var onItemClickListener: OnItemClickListener,var viewPosition:Int):ListAdapter<DataApplication,MainRvAdapter.Vh>(MyDiffUtil()) {
     inner class Vh(var itemReqBinding: ItemReqBinding):RecyclerView.ViewHolder(itemReqBinding.root){
         fun onBind(dataApplication: DataApplication, position: Int){
+            itemReqBinding.delete.setOnClickListener {
+                onItemClickListener.onItemClickDelete(dataApplication,position)
+            }
             if (viewPosition == 0){
                 itemReqBinding.delete.visibility = View.VISIBLE
                 when(dataApplication.status){
@@ -74,5 +77,6 @@ class MainRvAdapter(var context: Context,var onItemClickListener: OnItemClickLis
     }
     interface OnItemClickListener{
         fun onItemClick(request: DataApplication, position: Int)
+        fun onItemClickDelete(request: DataApplication, position: Int)
     }
 }

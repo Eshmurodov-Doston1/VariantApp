@@ -30,7 +30,7 @@ fun getError(context: Context,appError: AppError,navController: NavController){
             val popUpTo = NavOptions.Builder().setPopUpTo(R.id.authFragment, true)
             var bundle = Bundle()
             navController.navigate(R.id.authFragment,bundle,popUpTo.build())
-            str = appError.message.toString()
+            str = appError.error?.errors?.message.toString()
         }).toString()
         503->{
             str = context.getString(R.string.no_internet)
@@ -38,7 +38,8 @@ fun getError(context: Context,appError: AppError,navController: NavController){
         in 400..499->{
             if (appError.error?.errors!=null){
                 str+=appError.error?.errors?.message
-            }else if (appError.errorList!=null){
+            }
+            if (appError.errorList!=null){
                 appError.errorList?.errors1?.forEach {
                     str+="${it.message}\n"
                 }
